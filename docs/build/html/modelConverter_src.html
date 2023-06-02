@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>modelConverter Classes &mdash; pyTensorRT 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Getting start" href="getting_start.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyTensorRT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_start.html">Getting start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sources:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">modelConverter Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modelConverter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modelConverter.Converter.onnx"><code class="docutils literal notranslate"><span class="pre">Converter.onnx</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modelConverter.Converter.pb"><code class="docutils literal notranslate"><span class="pre">Converter.pb</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modelConverter.Converter.tensorRT"><code class="docutils literal notranslate"><span class="pre">Converter.tensorRT</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modelConverter.onnxConverter"><code class="docutils literal notranslate"><span class="pre">onnxConverter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modelConverter.onnxConverter.pb_to_onnx"><code class="docutils literal notranslate"><span class="pre">onnxConverter.pb_to_onnx()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modelConverter.pbConverter"><code class="docutils literal notranslate"><span class="pre">pbConverter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modelConverter.pbConverter.kerasmodel_to_pb"><code class="docutils literal notranslate"><span class="pre">pbConverter.kerasmodel_to_pb()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modelConverter.tensorRtConverter"><code class="docutils literal notranslate"><span class="pre">tensorRtConverter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modelConverter.tensorRtConverter.onnx_to_tensorrt"><code class="docutils literal notranslate"><span class="pre">tensorRtConverter.onnx_to_tensorrt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyTensorRT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">modelConverter Classes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modelConverter_src.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="modelconverter-classes">
+<h1>modelConverter Classes<a class="headerlink" href="#modelconverter-classes" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="modelConverter.Converter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelConverter.</span></span><span class="sig-name descname"><span class="pre">Converter</span></span><a class="headerlink" href="#modelConverter.Converter" title="Permalink to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="modelConverter.Converter.onnx">
+<span class="sig-name descname"><span class="pre">onnx</span></span><a class="headerlink" href="#modelConverter.Converter.onnx" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#modelConverter.onnxConverter" title="modelConverter.onnxConverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">onnxConverter</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modelConverter.Converter.pb">
+<span class="sig-name descname"><span class="pre">pb</span></span><a class="headerlink" href="#modelConverter.Converter.pb" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#modelConverter.pbConverter" title="modelConverter.pbConverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">pbConverter</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="modelConverter.Converter.tensorRT">
+<span class="sig-name descname"><span class="pre">tensorRT</span></span><a class="headerlink" href="#modelConverter.Converter.tensorRT" title="Permalink to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#modelConverter.tensorRtConverter" title="modelConverter.tensorRtConverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">tensorRtConverter</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modelConverter.onnxConverter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelConverter.</span></span><span class="sig-name descname"><span class="pre">onnxConverter</span></span><a class="headerlink" href="#modelConverter.onnxConverter" title="Permalink to this definition"></a></dt>
+<dd><p>Convert other model types into .onnx
+THIS VERSION ONLY SUPPORT .pb to .onnx</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modelConverter.onnxConverter.pb_to_onnx">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pb_to_onnx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#modelConverter.onnxConverter.pb_to_onnx" title="Permalink to this definition"></a></dt>
+<dd><p>convert .pb model into onnx</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_path</strong> (<em>str</em>) – path of .pb model folder ( Folder path )</p></li>
+<li><p><strong>res_path</strong> (<em>str</em>) – res path for save .onnx model ( .onnx file path)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modelConverter.pbConverter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelConverter.</span></span><span class="sig-name descname"><span class="pre">pbConverter</span></span><a class="headerlink" href="#modelConverter.pbConverter" title="Permalink to this definition"></a></dt>
+<dd><p>covert models into .pb format</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modelConverter.pbConverter.kerasmodel_to_pb">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kerasmodel_to_pb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modelConverter.pbConverter.kerasmodel_to_pb" title="Permalink to this definition"></a></dt>
+<dd><p>save keras model in .pb format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>_type_</em>) – keras model</p></li>
+<li><p><strong>res_path</strong> (<em>str</em>) – res path that .pb files save into it</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modelConverter.tensorRtConverter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelConverter.</span></span><span class="sig-name descname"><span class="pre">tensorRtConverter</span></span><a class="headerlink" href="#modelConverter.tensorRtConverter" title="Permalink to this definition"></a></dt>
+<dd><p>covert models into .plan format ( tensorRT )</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="modelConverter.tensorRtConverter.onnx_to_tensorrt">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">onnx_to_tensorrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fp16'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cuda_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_memory_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">256</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modelConverter.tensorRtConverter.onnx_to_tensorrt" title="Permalink to this definition"></a></dt>
+<dd><p>convert .onnx model to .plan model ( TensorRT model extention is .plan )</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>onnx_path</strong> (<em>str</em>) – path of .onnx file</p></li>
+<li><p><strong>onnx_path</strong> – res path for save tensorRT .plan file</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – ideal batch size of tensorRT model</p></li>
+<li><p><strong>precision</strong> (<em>str</em><em>, </em><em>optional</em>) – precision of tensorRT model. Defaults to ‘fp16’.</p></li>
+<li><p><strong>cuda_idx</strong> (<em>int</em><em>, </em><em>optional</em>) – index of GPU device. Defaults to 0.</p></li>
+<li><p><strong>max_memory_size</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum amount of memory that the model is allowed to cach in MB. it should be power of 2. Defaults to 256 MB.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Engin Object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Engin</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_start.html" class="btn btn-neutral float-left" title="Getting start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, amirHossein Malekzadeh.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
