@@ -72,4 +72,14 @@ compatible versions
      - 2022.2.2
      - 1.13.0
      - 2.10 
+   * - 
+     - 
+     - 
+     - 2022.2.2
+     - 1.13.0
+     - 2.11.0 
 
+
+install pyTensorRT
+^^^^^^^^^^^^^^^^^^^^
+clone repository

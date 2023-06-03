@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>multi GPU &mdash; pyTensorRT 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="modelConverter Classes" href="modelConverter_src.html" />
+    <link rel="prev" title="Getting start" href="getting_start.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyTensorRT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_start.html">Getting start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">multi GPU</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-build-engines">step 1: build engines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-inference-tensorrt">step 2: inference TensorRt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parallel-on-multi-gpu-threading">parallel on multi-GPU (threading)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modelConverter_src.html">modelConverter Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EngineRT_src.html">EngineRT</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyTensorRT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">multi GPU</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/multi_GPU.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="multi-gpu">
+<h1>multi GPU<a class="headerlink" href="#multi-gpu" title="Permalink to this heading"></a></h1>
+<p>in this section, we want to explain how using tensorRT on multi-GPU devices</p>
+<section id="step-1-build-engines">
+<h2>step 1: build engines<a class="headerlink" href="#step-1-build-engines" title="Permalink to this heading"></a></h2>
+<p>like before, we should convert our model to <code class="docutils literal notranslate"><span class="pre">.onnx</span></code> format. we ignore this step in this section. you can see how to do it for the TensorFlow model in <a class="reference internal" href="getting_start.html"><span class="doc">Getting start</span></a> .
+then we should convert <code class="docutils literal notranslate"><span class="pre">onnx</span></code> into tensorRT engine. The important difference here is that you have to create <strong>a separate tensorRT engine for each GPU</strong>.
+we do this by pass index of GPU device into <code class="docutils literal notranslate"><span class="pre">cuda_idx</span></code> argument of <code class="docutils literal notranslate"><span class="pre">Converter.tensorRT.onnx_to_tensorrt</span></code> method.
+GPU index for the first GPU device is equal to 0 and increases one by one for the other GPU devices.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">modelConverter</span> <span class="kn">import</span> <span class="n">Converter</span>
+
+<span class="c1">#convert onnx model into tensort rt</span>
+<span class="c1">#Export TensorRT for first GPU devices</span>
+<span class="n">Converter</span><span class="o">.</span><span class="n">tensorRT</span><span class="o">.</span><span class="n">onnx_to_tensorrt</span><span class="p">(</span><span class="s1">&#39;model.onnx&#39;</span><span class="p">,</span> <span class="s1">&#39;model_GPU0.plan&#39;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>  <span class="n">cuda_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1">#Export TensorRT for second GPU devices</span>
+<span class="n">Converter</span><span class="o">.</span><span class="n">tensorRT</span><span class="o">.</span><span class="n">onnx_to_tensorrt</span><span class="p">(</span><span class="s1">&#39;model.onnx&#39;</span><span class="p">,</span> <span class="s1">&#39;model_GPU1.plan&#39;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>  <span class="n">cuda_idx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After executing this part of the code, a file named <code class="docutils literal notranslate"><span class="pre">model.plan</span></code> will be created in the project path, which is tensorRT engine</p>
+</section>
+<section id="step-2-inference-tensorrt">
+<h2>step 2: inference TensorRt<a class="headerlink" href="#step-2-inference-tensorrt" title="Permalink to this heading"></a></h2>
+<p>like before, for using tensorRT engine, we use <code class="docutils literal notranslate"><span class="pre">engineRT</span></code> class of <code class="docutils literal notranslate"><span class="pre">engineRT</span></code> module. for more details see <a class="reference internal" href="EngineRT_src.html"><span class="doc">EngineRT</span></a>.
+load the engines that you built in the previous step</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the value of the <code class="docutils literal notranslate"><span class="pre">cuda_idx</span></code> argument must be equal to the GPU index on which the engine is built.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">EngineRT</span> <span class="kn">import</span> <span class="n">EngineRT</span>
+
+<span class="c1">#load tensorRT engines</span>
+<span class="n">engine0</span> <span class="o">=</span> <span class="n">EngineRT</span><span class="p">(</span><span class="s2">&quot;model_GPU0.plan&quot;</span><span class="p">,</span> <span class="n">cuda_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">engine1</span> <span class="o">=</span> <span class="n">EngineRT</span><span class="p">(</span><span class="s2">&quot;model_GPU1.plan&quot;</span><span class="p">,</span> <span class="n">cuda_idx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we give an arbitrary input to the models with the <code class="docutils literal notranslate"><span class="pre">inference</span></code> method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate random input. Its shape must match the input shape of the model</span>
+<span class="n">test_inputs0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">test_inputs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1">#inference inputs into model</span>
+<span class="n">result0</span> <span class="o">=</span> <span class="n">engine0</span><span class="o">.</span><span class="n">inference</span><span class="p">([</span><span class="n">test_inputs0</span><span class="p">])</span>
+<span class="n">result1</span> <span class="o">=</span> <span class="n">engine1</span><span class="o">.</span><span class="n">inference</span><span class="p">([</span><span class="n">test_inputs1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>as you see, we used both GPU devices. but in practice, we want to infer on multi-GPU in parallel. for doing this, see the next chapter</p>
+</section>
+<section id="parallel-on-multi-gpu-threading">
+<h2>parallel on multi-GPU (threading)<a class="headerlink" href="#parallel-on-multi-gpu-threading" title="Permalink to this heading"></a></h2>
+<p>in this section, we want to process our data on multi-GPU in parallel. let’s load the models that we built in Step 1.
+also import <code class="docutils literal notranslate"><span class="pre">threadingInference</span></code> class from <code class="docutils literal notranslate"><span class="pre">EngineRT</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">EngineRT</span> <span class="kn">import</span> <span class="n">EngineRT</span><span class="p">,</span> <span class="n">threadingInference</span>
+
+
+<span class="c1">#load tensorRT engines</span>
+<span class="n">engine0</span> <span class="o">=</span> <span class="n">EngineRT</span><span class="p">(</span><span class="s2">&quot;model_GPU0.plan&quot;</span><span class="p">,</span> <span class="n">cuda_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">engine1</span> <span class="o">=</span> <span class="n">EngineRT</span><span class="p">(</span><span class="s2">&quot;model_GPU1.plan&quot;</span><span class="p">,</span> <span class="n">cuda_idx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>now we should instance <code class="docutils literal notranslate"><span class="pre">threadingInference</span></code> object for each engine/</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">engine0_thread</span> <span class="o">=</span> <span class="n">threadingInference</span><span class="p">(</span> <span class="n">engine0</span> <span class="p">)</span>
+<span class="n">engine1_thread</span> <span class="o">=</span> <span class="n">threadingInference</span><span class="p">(</span> <span class="n">engine1</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>now we generate two random inputs and process them in parallel</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#Generate random inputs</span>
+<span class="n">imgs0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span> <span class="p">)</span>
+<span class="n">imgs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span> <span class="p">)</span>
+
+<span class="c1">#set inputs for each engine</span>
+<span class="n">engine0_thread</span><span class="o">.</span><span class="n">set_inputs</span><span class="p">(</span> <span class="p">[</span><span class="n">imgs0</span><span class="p">]</span>  <span class="p">)</span>
+<span class="n">engine1_thread</span><span class="o">.</span><span class="n">set_inputs</span><span class="p">(</span> <span class="p">[</span><span class="n">imgs1</span><span class="p">]</span>  <span class="p">)</span>
+
+<span class="c1">#run threads</span>
+<span class="n">engine0_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">engine1_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1">#wait for finishing process</span>
+<span class="n">engine0_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="n">engine1_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+<span class="c1">#get results</span>
+<span class="n">output0</span> <span class="o">=</span> <span class="n">engine0_thread</span><span class="o">.</span><span class="n">results</span>
+<span class="n">output1</span> <span class="o">=</span> <span class="n">engine1_thread</span><span class="o">.</span><span class="n">results</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_start.html" class="btn btn-neutral float-left" title="Getting start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modelConverter_src.html" class="btn btn-neutral float-right" title="modelConverter Classes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, amirHossein Malekzadeh.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

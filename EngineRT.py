@@ -177,16 +177,16 @@ class EngineRT:
 
 
 class threadingInference(threading.Thread):
-   def __init__(self, inf):
+   def __init__(self, eng: EngineRT):
       threading.Thread.__init__(self)
-      self.inf = inf
+      self.engine = eng
+      self.results = []
+      self.inputs = []
 
-   def set_args(self, args): 
-        self.args = args
+   def set_inputs(self, inputs): 
+        self.inputs = inputs
    def run(self):
-
-      self.outs = self.inf.do_inference(*self.args)
-      #print ("Exiting " + self.args[0])
+      self.results = self.engine.inference(self.inputs)
 
 
 if __name__ == "__main__":

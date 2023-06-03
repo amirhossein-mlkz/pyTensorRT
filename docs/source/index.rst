@@ -19,6 +19,7 @@ resources:
 
    installation
    getting_start
+   multi_GPU
 
 
 .. toctree::
